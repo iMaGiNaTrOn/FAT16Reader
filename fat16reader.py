@@ -42,6 +42,9 @@ data_area = int( ( ((boot_record["root_dir_entries"] * 32)/boot_record["bytes_pe
 
 for key, value in boot_record.items():
     print(key, ": ", value, sep="")
+
+print("=-=-=-=-=-=-=-=-=-=-=-=-=-=")
+
 for i in range(len(FATs)):
     print("Início da FAT ", i, ": ", FATs[i], sep = "")
 print("Início do diretorio raiz:", root_dir)
@@ -56,4 +59,8 @@ print("CONTEÚDO DO DIRETÓRIO RAÍZ")
 funcoes.printa_info_dir(cont_root_dir)
 
 opcao_num = int(input("Qual opção você deseja visualizar?\n"))
-funcoes.pega_dado(content, cont_root_dir[opcao_num], FATs[0], data_area, boot_record["bytes_per_sector"], boot_record["sector_per_cluster"])
+if opcao_num > len(cont_root_dir) or opcao_num < 0:
+    print("Erro, index fora de alcance")
+    exit()
+else:
+    funcoes.pega_dado(content, cont_root_dir[opcao_num], FATs[0], data_area, boot_record["bytes_per_sector"], boot_record["sector_per_cluster"])

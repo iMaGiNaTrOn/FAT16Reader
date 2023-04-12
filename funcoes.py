@@ -46,18 +46,27 @@ def pega_dado(conteudo, infos, ini_fat, ini_dados, byte_per_sector, sector_per_c
         pos_ini_fat += 2
         lista_cluster_fat.append(pos_ini_fat)
     
-    pos_ini_dados = ((infos[3] - 2) * sector_per_cluster * byte_per_sector) + ini_dados
-    i = 0
+    byte_per_cluster = sector_per_cluster * byte_per_sector
+    
+    pos_ini_dados = ((infos[3] - 2) * byte_per_cluster) + ini_dados
+    
     if infos[2] == 16:
         print(infos[0])
         arq_dir = checa_pasta(conteudo, pos_ini_dados)
         printa_info_dir(arq_dir)
     else:
         print(infos[0], ".", infos[1], sep="")
-        
-    while (i < infos[4]):
-        print(chr(conteudo[pos_ini_dados + i]), end="")
-        i += 1
+        somatorio = 0
+        for j in range(len(lista_cluster_fat)):
+            i = 0
+            if (infos[4] >= ((j + 1) * byte_per_cluster)):
+                tamanho = byte_per_cluster
+            else:
+                tamanho = infos[4] - (j * byte_per_cluster)
+            
+            while (i < tamanho):
+                print(chr(conteudo[pos_ini_dados + (j*byte_per_cluster) + i]), end="")
+                i += 1
 
 def printa_info_dir(cont_dir):
     for i in range(len(cont_dir)):
