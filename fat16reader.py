@@ -40,6 +40,8 @@ root_dir = (boot_record["reserved"] + (boot_record["n_FAT"] * boot_record["secto
 
 data_area = int( ( ((boot_record["root_dir_entries"] * 32)/boot_record["bytes_per_sector"]) + boot_record["reserved"] + (boot_record["n_FAT"] * boot_record["sector_per_FAT"]) ) * boot_record["bytes_per_sector"])
 
+f = funcoes.Funcs(boot_record, FATs, root_dir, data_area)
+
 for key, value in boot_record.items():
     print(key, ": ", value, sep="")
 
@@ -51,16 +53,16 @@ print("Início do diretorio raiz:", root_dir)
 print("Início da área de arquivos:", data_area)
       
 # checando conteudo da pasta raiz e armazenando em cont_root_dir
-cont_root_dir = funcoes.checa_pasta(content, root_dir)
+cont_root_dir = f.checa_pasta(content, root_dir)
 
 print("=-=-=-=-=-=-=-=-=-=-=-=-=-=")
 print("CONTEÚDO DO DIRETÓRIO RAÍZ")
 
-funcoes.printa_info_dir(cont_root_dir)
+f.printa_info_dir(cont_root_dir)
 
 opcao_num = int(input("Qual opção você deseja visualizar?\n"))
 if opcao_num > len(cont_root_dir) or opcao_num < 0:
     print("Erro, index fora de alcance")
     exit()
 else:
-    funcoes.pega_dado(content, cont_root_dir[opcao_num], FATs[0], data_area, boot_record["bytes_per_sector"], boot_record["sector_per_cluster"])
+    f.pega_dado(content, cont_root_dir[opcao_num])
