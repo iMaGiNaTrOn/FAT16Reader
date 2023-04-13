@@ -5,6 +5,8 @@ opcao_fat = int(input("Qual arquivo .img você quer ler?"
                       "\nOpção 1: fat16_4sectorpercluster"
                       "\nOpção 2: fat16_1sectorpercluster\n"))
 
+a
+
 if(opcao_fat == 1):
     file = open("fat16_4sectorpercluster.img", "rb")
 elif(opcao_fat == 2):
